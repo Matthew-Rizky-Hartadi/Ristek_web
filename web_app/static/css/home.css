@@ -1,0 +1,57 @@
+body {
+    background-color: #01162D;
+    height: 100vh;
+    font-family: 'Poppins';
+}
+h1 {
+    color: white;
+    font-family: 'Poppins';
+}
+
+#logo-text {
+    font-size: 26px;;
+}
+
+#logo-section {
+    cursor:pointer;
+}
+
+#name {
+    color: rgb(136, 191, 232);
+}
+
+textarea {
+    color: white;
+    font-family: 'Poppins';
+    background: none;
+    border-radius: 8px;
+    border: solid 2px rgb(136, 191, 232);
+    padding:5px;
+}
+
+textarea:focus {
+    outline: solid 2px rgb(136, 191, 232);
+}
+
+textarea::placeholder {
+    color: white;
+    font-family: 'Poppins';
+}
+
+textarea::-webkit-scrollbar-thumb {
+    background-color: grey;
+    border-radius:20px;
+}
+
+textarea::-webkit-scrollbar-track {
+    background: none;
+}
+
+button {
+    box-shadow: 0px 4px 8px #DAEBF3;
+}
+
+#card {
+    background: linear-gradient(180deg, #213356 0%, #0C182F 100%);
+    box-shadow: 6.39689px 6.39689px 19.1907px #1D2E4E;
+}
