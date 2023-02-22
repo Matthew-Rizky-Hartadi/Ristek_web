@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>Login</title>
+<link rel="stylesheet" href="{% static 'css/register.css' %}" />
+{% endblock meta %}
+
+{% block content %}
+
+<div>
+
+    <a href="{% url 'web_app:non_user_home' %}" class="flex gap-4 p-4">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8    fill-white">
+            <path fill-rule="evenodd" d="M11.03 3.97a.75.75 0 010 1.06l-6.22 6.22H21a.75.75 0 010 1.5H4.81l6.22 6.22a.75.75 0 11-1.06 1.06l-7.5-7.5a.75.75 0 010-1.06l7.5-7.5a.75.75 0 011.06 0z" clip-rule="evenodd" />
+          </svg>
+                
+        <h1 class="text-white text-2xl">Go Back</h1>
+    </a>
+
+
+    <div class="flex flex-col gap-8 items-center absolute top-1/2 left-1/2 p-4 z-5" id="box">
+        <h1 class="text-white text-2xl font-bold">Log In</h1>
+        <form method="POST" action="" class="flex flex-col items-center gap-6">
+            {% csrf_token %}
+            <div class="grid grid-cols-2 gap-8 mb-2">
+                
+                <h1>Username</h1>
+                <input type="text" name="username" placeholder="Username" class="p-1">
+            
+                <h1>Password</h1>
+                <input type="password" name="password" placeholder="Password" class="p-1">
+
+                <!-- <input type="submit" name="submit" value="Register"/> -->
+            </div>
+            <button value="register" type="submit" name="submit" class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Log In</button>
+            <h1 class="text-sm">Don't have an account? <a href="{% url 'web_app:register' %}" class="underline underline-offset-4 hover:text-purple-500">Sign Up here</a></h1>
+    </form>
+    </div>
+    
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+
+<div class="ocean">
+    <div class="wave"></div>
+    <div class="wave"></div>
+  </div>
+
+{% endblock content %}

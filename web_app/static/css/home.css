@@ -29,9 +29,10 @@ textarea {
     padding:5px;
 }
 
-textarea:focus {
-    outline: solid 2px rgb(136, 191, 232);
-}
+/* textarea:focus {
+    border: solid 4px rgb(136, 191, 232);
+    border-radius: 8px;
+} */
 
 textarea::placeholder {
     color: white;
@@ -49,6 +50,11 @@ textarea::-webkit-scrollbar-track {
 
 button {
     box-shadow: 0px 4px 8px #DAEBF3;
+    transition: 0.2s all;
+}
+
+button:active {
+    transform: scale(0.9);
 }
 
 #card {

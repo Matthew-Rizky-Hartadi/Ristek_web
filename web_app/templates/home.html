@@ -21,7 +21,7 @@
         
     <a href="{% url 'web_app:show_profile' %}" class="flex items-center gap-x-4">
         <img src="{% static 'images/profile_photo.svg' %}" alt="">
-        <h1 class="hidden sm:block">Name abradfbsdfbse</h1>   
+        <h1 class="hidden sm:block">{{ user }}</h1>   
     </a>
     
 </nav>
@@ -30,22 +30,25 @@
     <div class="flex flex-col w-2/3 sm:w-1/2">
         <h1 class="text-4xl font-bold">Welcome back,</h1>
         <br>
-        <h1 class="text-4xl font-bold" id="name">@Name</h1>
+        <h1 class="text-4xl font-bold" id="name">{{user}}</h1>
         
         <div class=" relative my-4 flex flex-col lg:flex-row gap-2">
-            <form mmethod="POST"action="">
+            <form method="POST"action="" id="add_post">
+                {% csrf_token %}
                 <div class="relative basis-4/6 overflow-auto">
-                    <textarea  placeholder="What's happening?" name="" id="" cols="50" rows="6" style="color: white; font-family: 'Poppins';" class="p-2 resize-none max-w-full"></textarea>
+                    <textarea  placeholder="What's happening?" name="post" id="" cols="50" rows="6" style="color: white; font-family: 'Poppins';" class="p-2 resize-none max-w-full" id="contents"></textarea>
                 </div>
+                <input type="hidden" name="user_id" value="{{ user }}">
                 
-            </form>
+                
             <div class="flex flex-row lg:flex-col justify-start lg:justify-end gap-2 py-2 basis-2/6">
-                <button class="bg-white basis-1/3 sm:basis-1/2 rounded-lg py-2.5 px-5 font-bold text-base flex items-center justify-center gap-1 "><span class="hidden sm:block">Edit Close Friends</span><img src="{% static 'images/friends_logo.svg' %}" alt=""></button>
-                <button class="bg-white rounded-lg py-2.5 px-5 font-bold text-base flex items-center justify-center gap-4 grow lg:grow-0">Post<img src="{% static 'images/post_logo.svg' %}" alt=""></button>
+                <button class="bg-white basis-1/3 sm:basis-1/2 rounded-lg py-2.5 px-5 font-bold text-sm flex items-center justify-center gap-2 active:scale-90 transition ease-in-out"><span class="hidden sm:block">Edit Close Friends</span><img src="{% static 'images/friends_logo.svg' %}" alt=""></button>
+                <button class="bg-white rounded-lg py-2.5 px-5 font-bold text-base flex items-center justify-center gap-2 grow lg:grow-0 active:scale-90 transition ease-in-out">Post<img src="{% static 'images/post_logo.svg' %}" alt=""></button>
             </div>
+            </form>
         </div>
 
-        <div class="flex flex-col gap-9" >
+        <div class="flex flex-col gap-9" id="posts">
             <div class="h-fit w-fit w-full rounded-3xl relative flex flex-col overflow-auto py-2" id="card">
                 <div class="flex py-2 px-4 sm:px-8 justify-between">
                     <div class="flex items-center sm:gap-2">
@@ -54,7 +57,8 @@
                         <h2 class="text-xs text-white font-extralight hidden md:block">04-12-2022</h2>
                     </div>
                     <div class="flex items-center">
-                        <img src="{% static 'images/delete_logo.svg' %}" alt="">
+                        <a href=""><img src="{% static 'images/delete_logo.svg' %}" alt=""></a>
+                        
                     </div>
                 </div>
 
@@ -67,6 +71,27 @@
             <div class="h-40 w-full rounded-3xl" id="card">
 
             </div> 
+
+            {% for post in posts %}
+            <div class="h-fit w-full rounded-3xl" id="card">
+                <div class="flex py-2 px-4 sm:px-8 justify-between">
+                    <div class="flex items-center sm:gap-2">
+                        <img class="scale-50 sm:scale-75 rounded" src="{% static 'images/profile_photo.svg' %}" alt="">
+                        <h1 class="font-bold text-sm">{{post.user}}</h1>
+                        <h2 class="text-xs text-white font-extralight hidden md:block">{{post.date}}</h2>
+                    </div>
+                    <div class="flex items-center">
+                        <a href=""><img src="{% static 'images/delete_logo.svg' %}" alt=""></a>
+                        
+                    </div>
+                </div>
+
+                <div>
+                    <h1 class="text-sm sm:text-xl py-4 px-8 font-bold">{{post.content}}</h1>
+                </div>
+
+            </div>
+            {% endfor %}
         </div>
         
 
@@ -75,8 +100,83 @@
 
 </div>
     
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(() => {
+        const card = post => ` <div class="h-fit w-full rounded-3xl" id="card">
+                <div class="flex py-2 px-4 sm:px-8 justify-between">
+                    <div class="flex items-center sm:gap-2">
+                        <img class="scale-50 sm:scale-75 rounded" src="{% static 'images/profile_photo.svg' %}" alt="">
+                        <h1 class="font-bold text-sm">${post.fields.username}</h1>
+                        <h2 class="text-xs text-white font-extralight hidden md:block">${post.fields.date}</h2>
+                    </div>
+                    <div class="flex items-center">
+                        <a href=""><img src="{% static 'images/delete_logo.svg' %}" alt=""></a>
+                        
+                    </div>
+                </div>
 
+                <div>
+                    <h1 class="text-sm sm:text-xl py-4 px-8 font-bold">${post.fields.content}</h1>
+                </div>
 
+            </div>
+            
+        </div>`
+
+        const renderItem = () => {
+            $.get("{% url 'web_app:json' %}", data => {
+                $.each(data, (i, value) => {
+                    $("#posts").append(card(value))
+                })
+            })
+        }
+        $("#add_post").submit(e => {
+
+            const csrftoken = document.querySelector(
+                "[name=csrfmiddlewaretoken]"
+            ).value;
+
+            const content = $("[name=post]").val();
+            console.log(content)
+            
+            const now = new Date();
+            const isoDate = now.toISOString();
+
+            const user_id = $("[name=user_id]").val();
+            console.log(user_id)
+
+            if (content) {
+                $.ajax({
+                    type:"POST",
+                    url:"{% url 'web_app:add_post' %}",
+                    headers:{ "X-CSRFToken": csrftoken },
+                    mode: "same-origin",
+                    data: {
+                        user: user_id,
+                        content: content,
+                        date: isoDate,
+                    },
+                    success: response => {
+                        $("#add_post").trigger("reset");
+                        $("#posts").append(card(response))
+                    },
+                    error: error => {
+                        console.log(error);
+                    },
+                });
+            } else {
+                alert("Please add a post")
+            }
+        })
+
+        renderItem();
+    })
+
+        
+
+    
+</script>
 
 
 
