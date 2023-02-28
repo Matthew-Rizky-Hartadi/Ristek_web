@@ -42,7 +42,7 @@ def show_profile(request):
         'user': request.user,
         'posts': Posts_reversed,
     }
-    print(Posts_reversed)
+    # print(Posts_reversed)
     
     return render(request, "profile.html", context)
 
@@ -64,6 +64,7 @@ def non_user_home(request):
 
 def register(request):
     form= UserCreationForm()
+    error = ''
 
     if request.method == "POST":
         form = UserCreationForm(request.POST)
@@ -71,8 +72,13 @@ def register(request):
             form.save()
             messages.success(request, 'Axcount successfully created!')
             return redirect('web_app:login')
+        # else:
+
     
-    context = {'form':form}
+    context = {
+        'form':form,
+        
+        }
     return render(request, 'register.html', context)
 
 def login_user(request):
@@ -176,5 +182,13 @@ def delete_User(request, id):
 def edit_post(request, id):
     post = Post.objects.get(user = request.user, id=id)
     
+    if request.method == "POST":
+        edit_post = request.POST.get('edit')
+
+        if edit_post != "" :
+            post.content = edit_post
+            post.save(update_fields=["content"])
+            return redirect('web_app:show_profile')
+
 
     

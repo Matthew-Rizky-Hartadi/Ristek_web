@@ -31,10 +31,16 @@
             
                 <h1>Password</h1>
                 {{ form.password1 }}
-                {% if form.password.errors %}
-                <div class="error">{{ form.password.errors }}</div>
+                {% if form.errors %}
+                <ul>
+                {% for field_name, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+                </ul>
                 {% endif %}
-            
+                        
 
             
                 <h1>Password Confirmation</h1>
@@ -46,19 +52,6 @@
         <button value="register" type="submit" name="submit" class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Register</button>
         <h1 class="text-sm">Already have an account? <a href="{% url 'web_app:login' %}" class="underline underline-offset-4 hover:text-purple-500">Login here</a></h1>
 
-        <p>{{ form.password.errors }}</p>
-        
-        {% if form.password.errors %}
-        <div class="error">{{ form.password.errors }}</div>
-        {% endif %}
-
-        {% if form.non_field_errors %}
-        <ul>
-            {% for message in form.non_field_errors %}
-                <li>{{ message }}</li>
-                {% endfor %}
-        </ul>
-        {% endif %}
     </form>
 
     <!-- <table class="text-sm">
