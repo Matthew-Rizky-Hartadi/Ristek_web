@@ -30,16 +30,19 @@
 
             
                 <h1>Password</h1>
-                {{ form.password1 }}
-                {% if form.errors %}
-                <ul>
-                {% for field_name, errors in form.errors.items %}
-                    {% for error in errors %}
-                        <li>{{ error }}</li>
+                <div>
+                  {{ form.password1 }}
+                    {% if form.errors %}
+                    <ul>
+                    {% for field_name, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
                     {% endfor %}
-                {% endfor %}
-                </ul>
-                {% endif %}
+                    </ul>
+                    {% endif %}  
+                </div>
+                
                         
 
             

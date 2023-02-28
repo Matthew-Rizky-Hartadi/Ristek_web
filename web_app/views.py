@@ -82,6 +82,7 @@ def register(request):
     return render(request, 'register.html', context)
 
 def login_user(request):
+    error = ""
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -94,7 +95,8 @@ def login_user(request):
             
         else:
             messages.info(request, 'Wrong Username or Password!')
-    context = {}
+            error = "Wrong Username or Password!"
+    context = {'error': error,}
     return render(request, 'login.html', context)
 
 def add_post(request):

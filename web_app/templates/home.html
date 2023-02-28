@@ -26,7 +26,7 @@
     
 </nav>
 
-<div class="flex justify-center my-4">
+<div class="flex justify-center my-4 pb-4">
     <div class="flex flex-col w-2/3 sm:w-1/2">
         <h1 class="text-4xl font-bold">Welcome back,</h1>
         <br>
@@ -78,10 +78,9 @@
                     </div>
                     <div class="flex items-center gap-4">
                         {% if user == post.user %}
-                        <a href="{% url 'web_app:edit_post' post.id %}" id="edit_button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 fill-white">
+                        <svg id="edit_button{{post.id}}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 fill-white" style="cursor:pointer;">
                             <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z" />
                           </svg>
-                        </a>
                         <a href="{% url 'web_app:delete_U' post.id %}"><img src="{% static 'images/delete_logo.svg' %}" alt=""></a>
                         {% endif %}
                     </div>
@@ -91,7 +90,7 @@
                     <h1 class="text-sm sm:text-xl py-4 px-8 font-bold">{{post.content}}</h1>
                 </div>
 
-                <div class="ease-in hidden duration-300" id="edit">
+                <div class="ease-in hidden duration-300" id="edit{{post.id}}"">
                     <form action="{% url 'web_app:edit_post_home' post.id %}" method="POST" class="flex flex-col px-8 py-4" style="color: white; font-family: 'Poppins';">
                         {% csrf_token %}
                         <div class="relative">
@@ -152,6 +151,35 @@
         //         })
         //     })
         // }
+        
+        const ids = $("[id^='edit_button']").map(function() {
+        return this.id.substring(11);
+    }).get();
+    console.log(ids)
+
+    const ids2 = [...document.querySelectorAll('[id^="edit_button"]')].map((elem) => elem.id);
+    console.log(ids2)
+
+    // Iterate over the IDs array and attach a click event to each edit button
+    ids.forEach(id => {
+        const openEdit = e => {
+            e.preventDefault();
+            console.log("hello" + id);
+            if ($("#edit" + id).hasClass("hidden")) {
+                $("#edit" + id).removeClass("hidden")
+                $("#edit" + id).addClass("block")
+            } else {
+                $("#edit" + id).removeClass("block")
+                $("#edit" + id).addClass("hidden")
+            }
+        }
+
+        $("#edit_button" + id).click(openEdit);
+
+        
+        });
+
+
         $("#add_post").submit(e => {
 
             const csrftoken = document.querySelector(
@@ -191,49 +219,49 @@
             }
         })
 
-        const openEdit = e => {
-        e.preventDefault();
-        console.log($("#edit").find('hidden').length)
-        $("#edit").removeClass("hidden")
-        $("#edit").addClass("block")
-    }
+    //     const openEdit = e => {
+    //     e.preventDefault();
+    //     console.log($("#edit").find('hidden').length)
+    //     $("#edit").removeClass("hidden")
+    //     $("#edit").addClass("block")
+    // }
 
 
-    $("#edit_button").click(openEdit);
+    // $("#edit_button").click(openEdit);
 
-    $("#edit").submit(e => {
+    // $("#edit").submit(e => {
 
-        const csrftoken = document.querySelector(
-            "[name=csrfmiddlewaretoken]"
-        ).value;
+    //     const csrftoken = document.querySelector(
+    //         "[name=csrfmiddlewaretoken]"
+    //     ).value;
 
-        const edit = $("[name=edit]").val();
-        console.log(edit)
+    //     const edit = $("[name=edit]").val();
+    //     console.log(edit)
 
 
-        const user_id = $("[name=user_id]").val();
-        console.log(user_id)
+    //     const user_id = $("[name=user_id]").val();
+    //     console.log(user_id)
 
-        if (content) {
-            $.ajax({
-                type:"POST",
-                url:`/edit_post_home/${user_id}/`,
-                headers:{ "X-CSRFToken": csrftoken },
-                mode: "same-origin",
-                data: {
-                    edit: edit,
-                },
-                success: response => {
-                    $("#edit").trigger("reset");
-                },
-                error: error => {
-                    console.log(error);
-                },
-            });
-        } else {
-            alert("Please add a post")
-        }
-        })
+    //     if (content) {
+    //         $.ajax({
+    //             type:"POST",
+    //             url:`/edit_post_home/${user_id}/`,
+    //             headers:{ "X-CSRFToken": csrftoken },
+    //             mode: "same-origin",
+    //             data: {
+    //                 edit: edit,
+    //             },
+    //             success: response => {
+    //                 $("#edit").trigger("reset");
+    //             },
+    //             error: error => {
+    //                 console.log(error);
+    //             },
+    //         });
+    //     } else {
+    //         alert("Please add a post")
+    //     }
+    //     })
 
     })
 
