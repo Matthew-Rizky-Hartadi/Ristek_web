@@ -54,4 +54,4 @@ If user is not logged in, it will be anonymous.
 5. User Profile: User have their own profile page which contains their own posts.
 
 ## Thank You
-Thank you for trying the application, criticism and suggestions arevery well appreciated.
+Thank you for trying the application, criticism and suggestions are very well appreciated.

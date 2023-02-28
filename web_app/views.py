@@ -48,10 +48,10 @@ def show_profile(request):
 
 def non_user_home(request):
     Posts = Post.objects.all()
-    User = get_user_model()
-    users = User.objects.all()
-    user = User.objects.get(username='anonymous')
-    print(users[2])
+    try:
+        user = User.objects.get(username='anonymous')
+    except User.DoesNotExist:
+        user = User.objects.create_user(username='anonymous', email='anonymous@example.com', password='password')
     Posts_reversed = []
     for i in range(len(Posts)):
         index = len(Posts) - i - 1
