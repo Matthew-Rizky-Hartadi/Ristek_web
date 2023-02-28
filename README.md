@@ -42,3 +42,16 @@ Follow these steps to install to your local machine:
 
 7. Open http://localhost:8000 in your favourite Web browser to see if the Web
    application is running.
+
+
+## Features
+
+1. User Authentication: Register and Login functions for users
+2. Add Post: User can add a post by writing in the text area and clicking post. User can post while being logged in or not.
+If user is not logged in, it will be anonymous.
+3. Edit Post: Authenticated users can edit post by clicking the pencil icon and entering a text in the textarea, and clicking edit.
+4. Delete Post: Authenticated users can delete their own post by clicking the red trash icon.
+5. User Profile: User have their own profile page which contains their own posts.
+
+## Thank You
+Thank you for trying the application, criticism and suggestions arevery well appreciated.
