@@ -181,7 +181,7 @@ def delete_User(request, id):
 
 def edit_post(request, id):
     post = Post.objects.get(user = request.user, id=id)
-    
+
     if request.method == "POST":
         edit_post = request.POST.get('edit')
 
@@ -190,5 +190,15 @@ def edit_post(request, id):
             post.save(update_fields=["content"])
             return redirect('web_app:show_profile')
 
+def edit_post_home(request, id):
+    post = Post.objects.get(user = request.user, id=id)
+    
+    if request.method == "POST":
+        edit_post = request.POST.get('edit')
+
+        if edit_post != "" :
+            post.content = edit_post
+            post.save(update_fields=["content"])
+            return redirect('web_app:show_home')
 
     
