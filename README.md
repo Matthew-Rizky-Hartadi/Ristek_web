@@ -40,7 +40,7 @@ Follow these steps to install to your local machine:
    python manage.py runserver
    ```
 
-7. Open http://localhost:8000 in your favourite Web browser to see if the Web
+7. Open http://localhost:8000/web_app in your favourite Web browser to see if the Web
    application is running.
 
 
