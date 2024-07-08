@@ -1,4 +1,5 @@
 # Ristek_web
+![image](https://github.com/Matthew-Rizky-Hartadi/Ristek_web/assets/112454126/8e19f6ad-cf2e-464c-99bb-da3c00827634)
 
 ## Installation
 
